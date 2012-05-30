@@ -1,0 +1,49 @@
+
+[
+ ;; Wine ontology
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :wine/name
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/fulltext true
+  :db/doc "A wine's name"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :wine/region
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db/doc "A wine region enum value"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :wine/color
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db/doc "A wine color enum value"
+  :db.install/_attribute :db.part/db}
+
+  ;; wine color translations
+  {:db/id #db/id[:db.part/db]
+   :db/ident :wine/color/i18n
+   :db/valueType :db.type/string
+   :db/cardinality :db.cardinality/many
+   :db/unique :db.unique/identity
+   :db/doc "Translations for wine/color"
+   :db.install/_attribute :db.part/db}
+ 
+ ;; wine/color enum values
+ [:db/add #db/id[:db.part/user] :db/ident :wine.color/red]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.color/white]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.color/rose]
+
+ ;; wine/region enum values
+ [:db/add #db/id[:db.part/user] :db/ident :wine.region/alsace]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.region/bordeaux]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.region/burgundy]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.region/loire]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.region/rhone]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.region/languedoc]
+
+ ]
