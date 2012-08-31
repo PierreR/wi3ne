@@ -1,0 +1,18 @@
+[
+ ;; wine/color enum values
+ {:db/id #db/id[:db.part/user]
+  :db/ident :wine.color/red
+  :i18n/en "red"
+  :i18n/fr "rouge"
+ }
+ {:db/id #db/id[:db.part/user]
+  :db/ident :wine.color/white
+  :i18n/en "white"
+  :i18n/fr "blanc"
+ }
+ {:db/id #db/id[:db.part/user]
+  :db/ident :wine.color/rose
+  :i18n/en "rose"
+  :i18n/fr "rosé"
+ }
+]

@@ -1,4 +1,3 @@
-
 [
  ;; Wine ontology
 
@@ -24,19 +23,21 @@
   :db/doc "A wine color enum value"
   :db.install/_attribute :db.part/db}
 
-  ;; wine color translations
+  ;; Translations tag [en]
   {:db/id #db/id[:db.part/db]
-   :db/ident :wine/color/i18n
+   :db/ident :i18n/en
    :db/valueType :db.type/string
-   :db/cardinality :db.cardinality/many
-   :db/unique :db.unique/identity
-   :db/doc "Translations for wine/color"
+   :db/cardinality :db.cardinality/one
+   :db/doc "English label"
    :db.install/_attribute :db.part/db}
  
- ;; wine/color enum values
- [:db/add #db/id[:db.part/user] :db/ident :wine.color/red]
- [:db/add #db/id[:db.part/user] :db/ident :wine.color/white]
- [:db/add #db/id[:db.part/user] :db/ident :wine.color/rose]
+  ;; Translations tag [fr]
+  {:db/id #db/id[:db.part/db]
+   :db/ident :i18n/fr
+   :db/valueType :db.type/string
+   :db/cardinality :db.cardinality/one
+   :db/doc "French label tag"
+   :db.install/_attribute :db.part/db}
 
  ;; wine/region enum values
  [:db/add #db/id[:db.part/user] :db/ident :wine.region/alsace]

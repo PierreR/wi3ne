@@ -12,29 +12,22 @@
 ;; connect to database
 (def conn (d/connect uri))
 
-;; parse schema dtm file
+;; parse schema dtm file;
+;; this is needed before adding anyother entities as enum are defined here.
 (def schema-tx (read-string (slurp "src/wi3ne/wi3ne-schema.dtm")))
 
 ;; submit schema transaction
 @(d/transact conn schema-tx)
 
-;; make a new wine entity 
+(def data-tx (read-string (slurp "src/wi3ne/wi3ne-data.dtm")))
+@(d/transact conn data-tx)
+
+;; make a new wine entity ,,
 @(d/transact conn [{:db/id (d/tempid :db.part/user)
                     :wine/name "Château des mille"
                     :wine/color :wine.color/red 
                     :wine/region :wine.region/loire
                     }])
-
-;; parse seed data dtm file
-;;; (def data-tx (read-string (slurp "samples/seattle/seattle-data0.dtm")))
-
-;; display first three statements in seed data transaction
-;;; (first data-tx)
-;;; (second data-tx)
-;;; (nth data-tx 2)
-
-;; submit seed data transaction
-@(d/transact conn data-tx)
 
 ;; find all communities, return entity ids
 (def results (q '[:find ?c :where [?c :wine/name]] (db conn)))
@@ -48,20 +41,25 @@
 ;; display the entity map's keys
 (keys entity)
 
-;; display the value of the entity's community name
-(:community/name entity)
+(:wine/name entity)
 
-;; for each community, display it's name
+;; for each wine, display it's name
 (let [db (db conn)]
-  (pprint (map #(:community/name (d/entity db (first %))) results)))
+  (pprint (map #(:wine/name (d/entity db (first %))) results)))
 
-;; for each community, get its neighborhood and display
-;; both names
+;; for each wine, get region and color
+;; color brings back a keyword !! (not a reference)
+;; i18n is handled completely separately
 (let [db (db conn)]
   (pprint (map #(let [entity (d/entity db (first %))]
-                  [(:community/name entity)
-                   (-> entity :community/neighborhood :neighborhood/name)])
+                  [(:wine/name entity)
+                   (:wine/region entity)
+                   (type (:wine/color entity))])
                results)))
+
+
+(pprint (ffirst (q '[:find ?label :where [:wine.color/red :i18n/fr ?label]] (db conn))))
+
 
 ;; for each community, get it's neighborhood, then for
 ;; that neighborhood, get all it's communities, and
