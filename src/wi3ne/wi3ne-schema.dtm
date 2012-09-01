@@ -23,12 +23,11 @@
   :db/doc "A wine color enum value"
   :db.install/_attribute :db.part/db}
 
-  ;; Translations tag [en]
+  ;; Enum definition for translation
   {:db/id #db/id[:db.part/db]
    :db/ident :i18n/en
    :db/valueType :db.type/string
    :db/cardinality :db.cardinality/one
-   :db/doc "English label"
    :db.install/_attribute :db.part/db}
  
   ;; Translations tag [fr]
@@ -36,8 +35,12 @@
    :db/ident :i18n/fr
    :db/valueType :db.type/string
    :db/cardinality :db.cardinality/one
-   :db/doc "French label tag"
    :db.install/_attribute :db.part/db}
+
+ ;; add enum definition for wine colors
+ [:db/add #db/id[:db.part/user] :db/ident :wine.color/red]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.color/white]
+ [:db/add #db/id[:db.part/user] :db/ident :wine.color/rose]
 
  ;; wine/region enum values
  [:db/add #db/id[:db.part/user] :db/ident :wine.region/alsace]
