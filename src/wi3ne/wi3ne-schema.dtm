@@ -1,5 +1,44 @@
 [
- ;; Wine ontology
+ ;; Social interaction
+ {:db/id #db/id[:db.part/db]
+  :db/ident :person/username
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/unique :db.unique/identity
+  :db/doc "A person's username"
+  :db.install/_attribute :db.part/db}
+
+  ;; Rate verb definition
+ {:db/id #db/id[:db.part/db]
+  :db/ident :rates/*
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db.install/_attribute :db.part/db}
+ 
+ {:db/id #db/id[:db.part/db]
+  :db/ident :rates/**
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :rates/***
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :rates/****
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :rates/*****
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db.install/_attribute :db.part/db}
+  ;; Wine ontology
 
  {:db/id #db/id[:db.part/db]
   :db/ident :wine/name
@@ -19,30 +58,30 @@
  {:db/id #db/id[:db.part/db]
   :db/ident :wine/color
   :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/one
+  :db/cardinality :db.cardinality/many
   :db/doc "A wine color enum value"
   :db.install/_attribute :db.part/db}
 
-  ;; Enum definition for translation
+   
+  ;; Translation tag attribute (these cannot be just enums; they need to be used as db attributes; so install as such)
   {:db/id #db/id[:db.part/db]
    :db/ident :i18n/en
    :db/valueType :db.type/string
    :db/cardinality :db.cardinality/one
    :db.install/_attribute :db.part/db}
  
-  ;; Translations tag [fr]
   {:db/id #db/id[:db.part/db]
    :db/ident :i18n/fr
    :db/valueType :db.type/string
    :db/cardinality :db.cardinality/one
    :db.install/_attribute :db.part/db}
 
- ;; add enum definition for wine colors
+ ;; Enum definition for wine colors (user partition)
  [:db/add #db/id[:db.part/user] :db/ident :wine.color/red]
  [:db/add #db/id[:db.part/user] :db/ident :wine.color/white]
  [:db/add #db/id[:db.part/user] :db/ident :wine.color/rose]
 
- ;; wine/region enum values
+ ;; Enum definition for wine/region
  [:db/add #db/id[:db.part/user] :db/ident :wine.region/alsace]
  [:db/add #db/id[:db.part/user] :db/ident :wine.region/bordeaux]
  [:db/add #db/id[:db.part/user] :db/ident :wine.region/burgundy]

@@ -58,13 +58,43 @@
                results)))
 
 
-(pprint (ffirst (q '[:find ?label :where [:wine.color/red :i18n/fr ?label]] (db conn))))
+(pprint (ffirst (q '[:find ?label :where [:wine.color/red :i18n/en ?label]] (db conn))))
 
 
 ;; for each community, get it's neighborhood, then for
-;; that neighborhood, get all it's communities, and
-;; print out there names
+
+(def redwine-color-entityid #id/entid [:wine.color/red])
+
+(def pierrer (ffirst (q '[:find ?e :where [?e :person/username "PierreR"]] (db conn))))
+(def joanner (ffirst (q '[:find ?e :where [?e :person/username "JoanneR"]] (db conn))))
+(def ch-mauriac (ffirst (q '[:find ?w :where [?w :wine/name "Château Mauriac"]] (db conn)))) 
+(def ch-mille (ffirst (q '[:find ?w :where [?w :wine/name "Château des mille"]] (db conn)))) 
+
+@(d/transact conn [{:db/id belltown-id
+                      :community/category "free stuff"}])
+
+@(d/transact conn [[:db/add pierrer :person/loves "sports"]])
+@(d/transact conn [[:db/add joanner :person/loves "sports"]])
+
+@(d/transact conn [{:db/id pierrer
+                    :rates/* ch-mille
+                    }])
+;; how many people rates/x for a-wine
+(pprint (q '[:find ?n :where [?p :rates/* 17592186045427]
+                             [?p :person/username ?n]] (db conn)))
+
+;; what's the rate for wineX ?
+(pprint (q '[:find ?n :where [?p :rates/**** ?w]
+                             [?p :person/username ?n]
+                             [?w :wine/name "Château Noeux"]] (db conn)))
+
+;; which wine has the highest rates ?
+(pprint (q '[:find ?wn :where [?p :rates/**** ?w]
+                             [?w :wine/name ?wn]] (db conn)))
+
+
 (def community (d/entity (db conn) (ffirst results)))
+
 (def neighborhood (:community/neighborhood community))
 (def communities (:community/_neighborhood neighborhood))
 (pprint (map :community/name communities))
